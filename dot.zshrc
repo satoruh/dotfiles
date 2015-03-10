@@ -131,3 +131,8 @@ function percol-pkill() {
   done
 }
 alias pk="percol-pkill"
+
+test -d /usr/local/var/pyenv && export PYENV_ROOT=/usr/local/var/pyenv
+test -x pyenv && eval "$(pyenv init -)"
+test -d /usr/local/var/rbenv && export RBENV_ROOT=/usr/local/var/rbenv
+if test -x rbenv && eval "$(rbenv init --no-rehash -)"
