@@ -99,8 +99,8 @@ if test -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; then
 fi
 
 ## ssh-agent
-SSH_KEYS=""
-source ${HOME}/.ssh-agent-info
+SSH_KEYS_FILE=~/.ssh_keys
+test -r ${HOME}/.ssh-agent-info && source ${HOME}/.ssh-agent-info
 ssh-add -l >&/dev/null
 if [ $? = 2 ] ; then
 	rm -rf ~/.ssh-agent-info
@@ -110,17 +110,18 @@ fi
 
 if ssh-add -l >&/dev/null ; then
 else
-	for key in ${SSH_KEYS}; do
+	while read key; do
 		eval ssh-add ${key}
-	done
+	done < $SSH_KEYS_FILE
 fi
 
 ## perlbrew
-source ~/perl5/perlbrew/etc/bashrc
-fpath=(~/devel/zsh/zsh-completions $fpath)
+test -r ~/perl5/perlbrew/etc/bashrc && source ~/perl5/perlbrew/etc/bashrc
+test -d ~/devel/zsh/zsh-completions && fpath=(~/devel/zsh/zsh-completions $fpath)
 
 # for AWS CLI
-source /usr/bin/aws_zsh_completer.sh
+test -r /usr/bin/aws_zsh_completer.sh && source /usr/bin/aws_zsh_completer.sh
+test -r /usr/local/Cellar/awscli/1.7.8/libexec/bin/aws_zsh_completer.sh && source /usr/local/Cellar/awscli/1.7.8/libexec/bin/aws_zsh_completer.sh
 
 #
 function percol-pkill() {
@@ -135,4 +136,4 @@ alias pk="percol-pkill"
 test -d /usr/local/var/pyenv && export PYENV_ROOT=/usr/local/var/pyenv
 test -x pyenv && eval "$(pyenv init -)"
 test -d /usr/local/var/rbenv && export RBENV_ROOT=/usr/local/var/rbenv
-if test -x rbenv && eval "$(rbenv init --no-rehash -)"
+test -x rbenv && eval "$(rbenv init --no-rehash -)"
