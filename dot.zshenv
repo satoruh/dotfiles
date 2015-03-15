@@ -4,7 +4,7 @@ export EDITOR=vim
 alias bi='bundle install -j4'
 alias be='bundle exec'
 alias bu='bundle update -j4'
-alias git='GIT_SSH=~/bin/git-ssh.sh git'
+test -x ~/bin/git-ssh.sh && alias git='GIT_SSH=~/bin/git-ssh.sh git'
 alias tmux='tmux -2'
 alias pry='pry -I. -e "require '\''bundler'\'';Bundler.setup;"'
 
