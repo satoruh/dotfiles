@@ -99,7 +99,6 @@ if test -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; then
 fi
 
 ## ssh-agent
-SSH_KEYS_FILE=~/.ssh_keys
 test -r ${HOME}/.ssh-agent-info && source ${HOME}/.ssh-agent-info
 ssh-add -l >&/dev/null
 if [ $? = 2 ] ; then
@@ -108,11 +107,14 @@ if [ $? = 2 ] ; then
 	source ~/.ssh-agent-info
 fi
 
-if ssh-add -l >&/dev/null ; then
-else
-	while read key; do
-		eval ssh-add ${key}
-	done < $SSH_KEYS_FILE
+SSH_KEYS_FILE=~/.ssh_keys
+if test -r ${SSH_KEYS_FILE}; then
+  if ssh-add -l >&/dev/null ; then
+  else
+    while read key; do
+      eval ssh-add ${key}
+    done < $SSH_KEYS_FILE
+  fi
 fi
 
 ## perlbrew
@@ -125,11 +127,11 @@ test -r /usr/local/Cellar/awscli/1.7.8/libexec/bin/aws_zsh_completer.sh && sourc
 
 #
 function percol-pkill() {
-  for pid in `ps aux | percol | awk '{ print $2 }'`
-  do
-    kill $pid ${@}
-    echo "Killed ${pid}"
-  done
+for pid in `ps aux | percol | awk '{ print $2 }'`
+do
+  kill $pid ${@}
+  echo "Killed ${pid}"
+done
 }
 alias pk="percol-pkill"
 
