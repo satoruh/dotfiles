@@ -12,3 +12,5 @@ path=(
   ~/bin
   $path
 )
+
+test -r ~/.zshenv.local && source ~/.zshenv.local
