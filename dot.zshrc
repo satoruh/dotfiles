@@ -162,7 +162,7 @@ path=(
   $path
 )
 
-test -x ${HOME}/.zshrc.local && source ${HOME}/.zshrc.local
+test -r ${HOME}/.zshrc.local && source ${HOME}/.zshrc.local
 
 # attach tmux
 function is_tmux_running() { test ! -z "$TMUX" }
