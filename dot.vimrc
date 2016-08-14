@@ -47,6 +47,8 @@ NeoBundle 'Shougo/vimproc.vim', {
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/neoyank.vim'
 NeoBundle 'Shougo/neocomplcache.vim'
+NeoBundle 'Shougo/unite-outline'
+NeoBundle 'hewes/unite-gtags'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'tpope/vim-endwise'
