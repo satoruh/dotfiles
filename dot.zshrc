@@ -87,7 +87,7 @@ setopt \
 PROMPT="%F{red}%n%f@%F{yello}%m%f:%F{green}%~%f \
 %F{yellow}%1(v.%1v.)%f \
 %D %T
-%N/%L %# "
+%# "
 
 HISTFILE=~/.zhistory
 HISTSIZE=99999
@@ -117,25 +117,27 @@ if test -r ${SSH_KEYS_FILE}; then
   fi
 fi
 
-## perlbrew
-test -r ~/perl5/perlbrew/etc/bashrc && source ~/perl5/perlbrew/etc/bashrc
-test -d ~/devel/zsh/zsh-completions && fpath=(~/devel/zsh/zsh-completions $fpath)
+# awscli
+source /usr/local/share/zsh/site-functions/_aws
 
-# for AWS CLI
-test -r /usr/bin/aws_zsh_completer.sh && source /usr/bin/aws_zsh_completer.sh
-test -r /usr/local/Cellar/awscli/1.7.8/libexec/bin/aws_zsh_completer.sh && source /usr/local/Cellar/awscli/1.7.8/libexec/bin/aws_zsh_completer.sh
+## node.js
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
 
-#
-function percol-pkill() {
-for pid in `ps aux | percol | awk '{ print $2 }'`
-do
-  kill $pid ${@}
-  echo "Killed ${pid}"
-done
-}
-alias pk="percol-pkill"
-
+# pyenv
 test -d /usr/local/var/pyenv && export PYENV_ROOT=/usr/local/var/pyenv
 which pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
+
+# rbenv
 test -d /usr/local/var/rbenv && export RBENV_ROOT=/usr/local/var/rbenv
 which rbenv >/dev/null 2>&1 && eval "$(rbenv init --no-rehash -)"
+
+# golang
+export GOPATH=${HOME}
+export GOROOT=/usr/local/opt/go/libexec
+
+path=(
+  $GOPATH/bin
+  $GOROOT/bin
+  $path
+)
