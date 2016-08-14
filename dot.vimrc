@@ -80,7 +80,8 @@ nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
 nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]u :<C-u>Unite file file_mru buffer directory/new file/new<CR>
-nnoremap <silent> [unite]g :<C-u>Unite vimgrep<CR>
+nnoremap <silent> [unite]vg :<C-u>Unite vimgrep<CR>
+nnoremap <silent> [unite]gg :<C-u>Unite gtags/context<CR>
 " }}}
 
 " neocomplcache {{{
