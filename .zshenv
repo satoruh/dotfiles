@@ -9,7 +9,7 @@ alias terminal-notifier='reattach-to-user-namespace terminal-notifier'
 
 path=(
   ~/bin
-  /usrlocal/bin/
+  /usr/local/bin/
   $path
 )
 
