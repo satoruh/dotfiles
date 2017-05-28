@@ -148,6 +148,9 @@ which rbenv >/dev/null 2>&1 && eval "$(rbenv init --no-rehash -)"
 # pyenv
 which pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
 
+# direnv
+eval "$(direnv hook zsh)"
+
 # golang
 export GOPATH=${HOME}
 export GOROOT=/usr/local/opt/go/libexec
