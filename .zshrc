@@ -142,10 +142,6 @@ function peco-history-selection() {
 zle -N peco-history-selection
 bindkey '^O^H' peco-history-selection
 
-## node.js
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
-
 # rbenv
 which rbenv >/dev/null 2>&1 && eval "$(rbenv init --no-rehash -)"
 
