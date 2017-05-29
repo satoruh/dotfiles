@@ -62,6 +62,9 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'vim-jp/vim-go-extra'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'glidenote/memolist.vim'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'mxw/vim-jsx'
 call neobundle#end()
 
 NeoBundleCheck
@@ -210,6 +213,24 @@ let g:syntastic_mode_map={
       \ 'active_filetypes': ['go']
       \}
 let g:syntastic_go_chekers = ['go', 'golint']
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_build_constraints = 1
+
+set rtp+=$GOPATH/src/github.com/golang/lint/misc/vim
+autocmd FileType go nmap <Leader>gr <Plug>(go-run)
+autocmd FileType go nmap <Leader>gb <Plug>(go-build)
+autocmd FileType go nmap <Leader>gt <Plug>(go-test)
+autocmd FileType go nmap <Leader>gc <Plug>(go-coverage)
+autocmd FileType go nmap <Leader>gd <Plug>(go-doc)
+autocmd FileType go nmap <Leader>gi <Plug>(go-import)
+autocmd FileType go nmap <Leader>gm <Plug>(go-implements)
+autocmd FileType go nmap <Leader>gu <Plug>(go-build)<Plug>(go-install)
+" }}}
+
+" for javascript {{{
+let g:jsx_ext_required = 0
 " }}}
 
 " for quickrun {{{
@@ -219,6 +240,17 @@ let g:quickrun_config={
       \     'outputter/buffer/split': ''
       \  },
       \}
+" }}}
+
+" for memolist {{{
+let g:memolist_path = "~/vim/memolist/"
+let g:memolist_unite        = 1
+let g:memolist_unite_source = "file_rec"
+let g:memolist_unite_option = "-start-insert"
+
+nnoremap <Leader>mn  :MemoNew<CR>
+nnoremap <Leader>ml  :MemoList<CR>
+nnoremap <Leader>mg  :MemoGrep<CR>
 " }}}
 
 "

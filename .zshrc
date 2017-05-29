@@ -1,3 +1,6 @@
+## zplug
+source ~/.zplug/init.zsh
+
 ## autoloads
 autoload -Uz promptinit ; promptinit
 autoload -Uz colors ; colors
@@ -5,6 +8,7 @@ autoload -Uz compinit ; compinit
 autoload -Uz is-at-least
 autoload -Uz add-zsh-hook
 autoload -Uz vcs_info
+autoload -Uz edit-command-line
 
 ## completion
 zstyle :compinstall filename '~/.zshrc'
@@ -19,6 +23,26 @@ zstyle ':completion:*' group-name ''
 
 ## keybindings
 bindkey -e
+
+## plugins
+zplug "zplug/zplug"
+
+zplug "zsh-users/zsh-completions"
+
+zplug "zsh-users/zsh-history-substring-search"
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+
+if ! zplug check; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
+fi
+
+zplug load
 
 ## vcs
  ## http://d.hatena.ne.jp/mollifier/20100906/p1
@@ -105,32 +129,9 @@ HISTFILE=~/.zhistory
 HISTSIZE=99999
 SAVEHIST=99999
 
-## ssh-agent
-test -r ${HOME}/.ssh-agent-info && source ${HOME}/.ssh-agent-info
-ssh-add -l >&/dev/null
-if [ $? = 2 ] ; then
-	rm -rf ~/.ssh-agent-info
-	ssh-agent >~/.ssh-agent-info
-	source ~/.ssh-agent-info
-fi
-
-## gpg-agent
-gpg_agent_info=~/.gpg-agent-info
-if test -f ${gpg_agent_info}; then
-  source ${gpg_agent_info}
-  gpg_agent_pid=$(echo ${GPG_AGENT_INFO} | sed -e 's/.*gpg-agent:\([^:]*\):.*$/\1/')
-  if test "$(pgrep gpg-agent)" -eq "${gpg_agent_pid}" > /dev/null; then
-    export GPG_AGENT_INFO
-  else
-    rm -f ${gpg_agent_info}
-  fi
-fi
-if ! test -f ${gpg_agent_info}; then
-  eval $(gpg-agent --daemon --write-env-file ${gpg_agent_info})
-fi
-
-# awscli
-source /usr/local/share/zsh/site-functions/_aws
+# edit-command-live
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
 
 # functions
 function peco-history-selection() {
@@ -142,14 +143,21 @@ function peco-history-selection() {
 zle -N peco-history-selection
 bindkey '^O^H' peco-history-selection
 
+# direnv
+eval "$(direnv hook zsh)"
+
+# awscli
+source /usr/local/share/zsh/site-functions/_aws
+
 # rbenv
 which rbenv >/dev/null 2>&1 && eval "$(rbenv init --no-rehash -)"
 
-# pyenv
+# Python
+## pyenv
 which pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
-
-# direnv
-eval "$(direnv hook zsh)"
+## virtualenvwrapper
+### ugly
+### test -f /usr/local/bin/virtualenvwrapper.sh && source /usr/local/bin/virtualenvwrapper.sh
 
 # golang
 export GOPATH=${HOME}
@@ -161,14 +169,20 @@ path=(
   $path
 )
 
-test -r ${HOME}/.zshrc.local && source ${HOME}/.zshrc.local
+# autoenv
+#source /usr/local/opt/autoenv/activate.sh
 
-# attach tmux
-function is_tmux_running() { test ! -z "$TMUX" }
-if ! is_tmux_running; then
-  if tmux list-sessions >/dev/null 2>&1; then
-    tmux attach-session
-  else
-    tmux
-  fi
+## ssh-agent
+test -r ${HOME}/.ssh-agent-info && source ${HOME}/.ssh-agent-info
+ssh-add -l >&/dev/null
+if [ $? = 2 ] ; then
+	rm -rf ~/.ssh-agent-info
+	ssh-agent >~/.ssh-agent-info
+	source ~/.ssh-agent-info
 fi
+
+## gpg-agent
+gpg-agent --daemon --quiet
+
+# zsh local
+test -r ${HOME}/.zshrc.local && source ${HOME}/.zshrc.local
