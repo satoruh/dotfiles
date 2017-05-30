@@ -10,12 +10,12 @@ alias terminal-notifier='reattach-to-user-namespace terminal-notifier'
 path=(
   ~/bin(N-/)
   /usr/local/bin(N-/)
-  /usr/local/opt/coreutils/libexec/gnubin(N-/
+  /usr/local/opt/coreutils/libexec/gnubin(N-/)
   $path
 )
 
 fpath=(
-  ~/.zsh/functions
+  ~/.zsh/functions(N-/)
   $fpath
 )
 
