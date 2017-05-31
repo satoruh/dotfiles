@@ -16,6 +16,7 @@ path=(
 
 fpath=(
   ~/.zsh/functions(N-/)
+  /usr/local/share/zsh-completions(N-/)
   $fpath
 )
 
